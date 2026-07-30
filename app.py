@@ -7,6 +7,23 @@ import torch.nn as nn
 from torchvision import models, transforms
 from facenet_pytorch import MTCNN
 from PIL import Image
+import streamlit as st
+from huggingface_hub import hf_hub_download
+import torch
+
+@st.cache_resource
+def load_models():
+    device = torch.device("cpu")
+    
+    # Download weights directly from Hugging Face Hub at runtime
+    discrete_path = hf_hub_download(repo_id="your-username/affective-emotion-weights", filename="model_discrete.pth")
+    va_path = hf_hub_download(repo_id="your-username/affective-emotion-weights", filename="model_va.pth")
+    
+    # Load state dicts from downloaded temp paths
+    model_discrete.load_state_dict(torch.load(discrete_path, map_location=device))
+    model_va.load_state_dict(torch.load(va_path, map_location=device))
+    
+    return model_discrete, model_va, mtcnn, emotions, device
 
 st.set_page_config(page_title="Affective State Detector", layout="wide")
 st.title("Real-Time Affective State & Emotion Detector")
