@@ -16,8 +16,8 @@ def load_models():
     device = torch.device("cpu")
     
     # Download weights directly from Hugging Face Hub at runtime
-    discrete_path = hf_hub_download(repo_id="your-username/affective-emotion-weights", filename="model_discrete.pth")
-    va_path = hf_hub_download(repo_id="your-username/affective-emotion-weights", filename="model_va.pth")
+    discrete_path = hf_hub_download(repo_id="jitumalipeddi/affective-emotion-weights", filename="model_discrete.pth")
+    va_path = hf_hub_download(repo_id="jitumalipeddi/affective-emotion-weights", filename="model_va.pth")
     
     # Load state dicts from downloaded temp paths
     model_discrete.load_state_dict(torch.load(discrete_path, map_location=device))
