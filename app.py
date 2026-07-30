@@ -8,7 +8,23 @@ from PIL import Image
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 from huggingface_hub import hf_hub_download
+import os
+from twilio.rest import Client
 
+def get_ice_servers():
+    try:
+        account_sid = st.secrets["TWILIO_ACCOUNT_SID"]
+        auth_token = st.secrets["TWILIO_AUTH_TOKEN"]
+        client = Client(account_sid, auth_token)
+        token = client.tokens.create()
+        return token.ice_servers
+    except Exception as e:
+        st.warning(f"Failed to fetch Twilio ICE servers. Falling back to Google STUN. Error: {e}")
+        return [{"urls": ["stun:stun.l.google.com:19302"]}]
+
+rtc_configuration = RTCConfiguration(
+    {"iceServers": get_ice_servers()}
+)
 # Page Configuration
 st.set_page_config(page_title="Affective State Detector", layout="wide")
 st.title("Real-Time Affective State & Emotion Detector")
