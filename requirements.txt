@@ -6,3 +6,4 @@ facenet-pytorch
 opencv-python-headless
 av
 huggingface-hub
+twilio
